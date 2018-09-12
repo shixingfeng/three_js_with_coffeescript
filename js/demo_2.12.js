@@ -50,6 +50,16 @@
     spotLight.position.set(-40, 60, -10);
     spotLight.castShadow = true;
     scene.add(spotLight);
+    // 雾化
+    // 线性增长
+    scene.fog = new THREE.Fog(0xffffff, 0.015, 100);
+    // 非线性增长
+    // scene.fog = new THREE.FogExp2 0xffffff, 0.01
+
+    // 材质覆盖
+    scene.overrideMaterial = new THREE.MeshLambertMaterial({
+      color: 0xffffff
+    });
     // 控制台
     controls = new function() {
       this.rotationSpeed = 0.02;

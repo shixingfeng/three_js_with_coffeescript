@@ -2,7 +2,7 @@
 (function() {
   var camera, controls, init, onResize, renderer, scene;
 
-  console.log("启用coffee demo_2.1");
+  console.log("启用coffee demo_2.12");
 
   camera = null;
 
