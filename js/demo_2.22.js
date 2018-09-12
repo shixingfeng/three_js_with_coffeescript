@@ -99,14 +99,14 @@
     gui = new dat.GUI();
     // 缩放
     guiScale = gui.addFolder("scale");
-    guiScale.add(controls, 'scaleX', 0, 5);
-    guiScale.add(controls, 'scaleY', 0, 5);
-    guiScale.add(controls, 'scaleZ', 0, 5);
+    guiScale.add(controls, "scaleX", 0, 5);
+    guiScale.add(controls, "scaleY", 0, 5);
+    guiScale.add(controls, "scaleZ", 0, 5);
     //位置 相对于父对象
     guiPosition = gui.addFolder('position');
-    contX = guiPosition.add(controls, 'positionX', -10, 10);
-    contY = guiPosition.add(controls, 'positionY', -4, 20);
-    contZ = guiPosition.add(controls, 'positionZ', -10, 10);
+    contX = guiPosition.add(controls, "positionX", -10, 10);
+    contY = guiPosition.add(controls, "positionY", -4, 20);
+    contZ = guiPosition.add(controls, "positionZ", -10, 10);
     // 监听位置变化
     contX.listen();
     contX.onChange(function(value) {
@@ -134,7 +134,7 @@
     guiTranslate.add(controls, "translate");
     
     //是否渲染
-    gui.add(controls, 'visible');
+    gui.add(controls, "visible");
     // 实时渲染
     renderScene = function() {
       stats.update();
