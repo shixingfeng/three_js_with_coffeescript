@@ -1,1 +1,1 @@
-coffee -c -o js coffee
+coffee -c -o ./static/js coffee
