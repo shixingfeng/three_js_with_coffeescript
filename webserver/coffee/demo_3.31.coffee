@@ -26,7 +26,6 @@ init = ()->
     planeGeometry = new THREE.PlaneGeometry 1000, 200, 20, 20
     planeMaterial = new THREE.MeshLambertMaterial {map: textureGrass}
     plane = new THREE.Mesh planeGeometry,planeMaterial
-    
 
     plane.rotation.x = -0.5 * Math.PI
     plane.position.x = 15
