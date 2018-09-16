@@ -1,5 +1,7 @@
 console.log "启用coffee demo_3.32"
 camera = null
+scene = null
+renderer = null
 init = ()->
     # 场景
     scene = new THREE.Scene()

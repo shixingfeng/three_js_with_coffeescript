@@ -2,6 +2,9 @@ console.log "启用coffee demo_3.31"
 orbitControls = null
 orbitControls_rotateLeft = 0
 orbitControls_rotateRight = 0
+camera = null
+scene = null
+renderer = null
 init = ()->
     # 场景
     scene = new THREE.Scene()
