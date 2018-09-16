@@ -12,7 +12,7 @@ from tornado.escape import json_decode
 # 临时接口
 class ThreeJSHandler_learn(tornado.web.RequestHandler):
     def get(self):
-        self.render("template/07-lensflares.html")
+        self.render("template/01-basic-mesh-material.html")
 
 # coffee重写部分
 
@@ -83,6 +83,15 @@ class ThreeJSHandler_demo3_32(tornado.web.RequestHandler):
 class ThreeJSHandler_demo3_33(tornado.web.RequestHandler):
     def get(self):
         self.render("template/demo_3.33.html")
+
+class ThreeJSHandler_demo4_1(tornado.web.RequestHandler):
+    def get(self):
+        self.render("template/demo_4.1.html")
+
+class ThreeJSHandler_demo4_2(tornado.web.RequestHandler):
+    def get(self):
+        self.render("template/demo_4.2.html")
+        
 
 class ThreeJSHandler_demo9_25(tornado.web.RequestHandler):
     def get(self):
