@@ -45,6 +45,7 @@ def make_app():
         (r"/threejs4_23",three.ThreeJSHandler_demo4_23),
         (r"/threejs4_24",three.ThreeJSHandler_demo4_24),
         (r"/threejs4_25",three.ThreeJSHandler_demo4_25),
+        (r"/threejs4_31",three.ThreeJSHandler_demo4_31),
         (r"/threejs9_25",three.ThreeJSHandler_demo9_25),
 
         # 调用例子的临时接口
