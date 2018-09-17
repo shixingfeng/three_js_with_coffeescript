@@ -22,8 +22,8 @@ init = ()->
     webGLRenderer.setSize window.innerWidth, window.innerHeight
     webGLRenderer.shadowMapEnabled = true
     
-    canvasRenderer = new THREE.CanvasRenderer()
-    canvasRenderer.setSize window.innerWidth, window.innerHeight
+    # canvasRenderer = new THREE.CanvasRenderer()
+    # canvasRenderer.setSize window.innerWidth, window.innerHeight
 
     renderer = webGLRenderer
 
@@ -54,6 +54,7 @@ init = ()->
     
     f = 0
     fl = sphere.geometry.faces.length
+    console.log fl
     list = [f..fl-1]
     (face = sphere.geometry.faces[f]
     centroid = new THREE.Vector3 0, 0, 0
@@ -63,10 +64,10 @@ init = ()->
     centroid.divideScalar 3
     arrow = new THREE.ArrowHelper face.normal,
             centroid,
-            2,
+            10,
             0x3333FF,
-            0.5,
-            0.5
+            8,
+            1
         sphere.add arrow
     )for f in list
 

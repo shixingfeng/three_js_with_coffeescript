@@ -17,7 +17,7 @@
   c = null;
 
   init = function() {
-    var ambientLight, arrow, canvasRenderer, centroid, controls, cube, cubeGeometry, f, face, fl, groundGeom, groundMesh, gui, i, initStats, len, list, meshMaterial, oldContext, plane, planeGeometry, ref, renderScene, spGui, sphere, sphereGeometry, spotLight, stats, step, webGLRenderer;
+    var ambientLight, arrow, centroid, controls, cube, cubeGeometry, f, face, fl, groundGeom, groundMesh, gui, i, initStats, len, list, meshMaterial, oldContext, plane, planeGeometry, ref, renderScene, spGui, sphere, sphereGeometry, spotLight, stats, step, webGLRenderer;
     // 场景
     scene = new THREE.Scene();
     
@@ -33,8 +33,9 @@
     webGLRenderer.setClearColor(new THREE.Color(0xEEEEEE, 1.0));
     webGLRenderer.setSize(window.innerWidth, window.innerHeight);
     webGLRenderer.shadowMapEnabled = true;
-    canvasRenderer = new THREE.CanvasRenderer();
-    canvasRenderer.setSize(window.innerWidth, window.innerHeight);
+    
+    // canvasRenderer = new THREE.CanvasRenderer()
+    // canvasRenderer.setSize window.innerWidth, window.innerHeight
     renderer = webGLRenderer;
     // 地面
     groundGeom = new THREE.PlaneGeometry(100, 100, 4, 4);
@@ -64,6 +65,7 @@
     sphere.position.z = 2;
     f = 0;
     fl = sphere.geometry.faces.length;
+    console.log(fl);
     list = (function() {
       var results = [];
       for (var i = f, ref = fl - 1; f <= ref ? i <= ref : i >= ref; f <= ref ? i++ : i--){ results.push(i); }
@@ -71,7 +73,7 @@
     }).apply(this);
     for (i = 0, len = list.length; i < len; i++) {
       f = list[i];
-      (face = sphere.geometry.faces[f], centroid = new THREE.Vector3(0, 0, 0), centroid.add(sphere.geometry.vertices[face.a]), centroid.add(sphere.geometry.vertices[face.b]), centroid.add(sphere.geometry.vertices[face.c]), centroid.divideScalar(3), arrow = new THREE.ArrowHelper(face.normal, centroid, 2, 0x3333FF, 0.5, 0.5), sphere.add(arrow));
+      (face = sphere.geometry.faces[f], centroid = new THREE.Vector3(0, 0, 0), centroid.add(sphere.geometry.vertices[face.a]), centroid.add(sphere.geometry.vertices[face.b]), centroid.add(sphere.geometry.vertices[face.c]), centroid.divideScalar(3), arrow = new THREE.ArrowHelper(face.normal, centroid, 10, 0x3333FF, 8, 1), sphere.add(arrow));
     }
     // 方块和平面的位置
     cube.position = sphere.position;
