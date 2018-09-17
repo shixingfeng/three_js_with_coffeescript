@@ -1,10 +1,11 @@
-console.log "启用coffee demo_3.31"
+console.log "启用coffee demo_9.25"
 orbitControls = null
 orbitControls_rotateLeft = 0
 orbitControls_rotateRight = 0
 camera = null
 scene = null
 renderer = null
+offset = 0
 init = ()->
     # 场景
     scene = new THREE.Scene()
@@ -22,7 +23,7 @@ init = ()->
     orbitControls.userZoom = false
 
     orbitControls.minPolarAngle = Math.PI/4.0
-    orbitControls.maxPolarAngle = Math.PI/4.0
+    orbitControls.maxPolarAngle = Math.PI/2.0
 
     orbitControls.userRotate = true
     # 键盘监听
@@ -39,8 +40,9 @@ init = ()->
     
     # 创建地面方块
     createMesh = (geom) ->
-        planetTexture = THREE.ImageUtils.loadTexture "/static/pictures/mars_1k_color.jpg"
-        normalTexture = THREE.ImageUtils.loadTexture "/static/pictures/mars_1k_normal.jpg"
+        planeGeometry = new THREE.PlaneGeometry 60, 20, 1, 1
+        planetTexture = THREE.ImageUtils.loadTexture "/static/pictures/starry-deep-outer-space-galaxy.jpg"
+        normalTexture = THREE.ImageUtils.loadTexture "/static/pictures/starry-deep-outer-space-galaxy.jpg"
         planetMaterial = new THREE.MeshPhongMaterial {map: planetTexture, bumpMap: normalTexture}
         
         wireFrameMat = new THREE.MeshBasicMaterial()
@@ -104,7 +106,7 @@ init = ()->
 onResize = ()->
     console.log "onResize"
     camera.aspect= window.innerWidth/window.innerHeight
-    camera.update ProjectionMatrix()
+    camera.updateProjectionMatrix()
     renderer.setSize window.innerWidth, window.innerHeight
 
 
@@ -123,16 +125,68 @@ window.onload = init()
 window.addEventListener "resize", onResize, false
 
 $("body").append"""
-    <button id="controls_left" style="position:absolute;top:73px">rotateLeft</button>
-    <button id="controls_right" style="position:absolute;top:100px">rotateRight</button>
+    <button id="controls_left_90" style="position:absolute;top:70px">rotateLeft_90</button>
+    <button id="controls_right_90" style="position:absolute;top:100px">rotateRight_90</button>
+    <button id="controls_left_180" style="position:absolute;top:130px">rotateLeft_180</button>
+    <button id="controls_right_180" style="position:absolute;top:160px">rotateRight_180</button>
+    <button id="controls_left_360" style="position:absolute;top:190px">rotateleft_360</button>
+    <button id="controls_right_360" style="position:absolute;top:220px">rotateRight_360</button>
+    <button id="tozero" style="position:absolute;top:250px">zero</button>
+
 """
-turn_left = document.getElementById("controls_left")
-turn_right = document.getElementById("controls_right")
+turn_left_90= document.getElementById("controls_left_90")
+turn_right_90 = document.getElementById("controls_right_90")
+turn_left_180 = document.getElementById("controls_left_180")
+turn_right_180 = document.getElementById("controls_right_180")
+turn_left_360 = document.getElementById("controls_left_360")
+turn_right_360 = document.getElementById("controls_right_360")
+zero = document.getElementById("tozero")
 
-turn_left.addEventListener "click", (e)->
-    console.log "Click_left"
-    orbitControls_rotate(0.03,0)
-turn_right.addEventListener "click", (e)->
-    orbitControls_rotate(-0.03,0)
-    console.log "Click_right"
+zero.addEventListener "click", (e)->
+    console.log "归位"
+    offset_now  = offset-0 
+    orbitControls_rotate(offset_now,0)
+    offset = offset-offset_now 
+    console.log offset
 
+turn_left_90.addEventListener "click", (e)->
+    console.log "左转90°"
+    offset_now = offset - 0.025
+    # 
+    if offset_now < -0.2
+        offset_now = offset-(-0.2)
+        orbitControls_rotate(offset_now,0)
+        offset = -0.2
+        return
+    # 继续转，直至超出0.2
+    else
+        orbitControls_rotate(0.025,0)
+        offset = offset-0.025
+    console.log "向左转了"+offset+"量"
+
+
+# turn_right_90.addEventListener "click", (e)->
+#     orbitControls_rotate(-0.025,0)
+#     console.log "Click_right_90"
+#     delta_0 = delta_0-(-0.025)
+#     console.log delta_0
+# turn_left_180.addEventListener "click", (e)->
+#     console.log "Click_left_180"
+#     orbitControls_rotate(Math.PI/180*180/100.0,0)
+#     delta_0 = delta_0-(Math.PI/180*180/100.0)
+#     console.log delta_0
+# turn_right_180.addEventListener "click", (e)->
+#     orbitControls_rotate(-0.5,0)
+#     console.log "Click_right_180"
+#     delta_0 = delta_0-(-0.5)    
+#     console.log delta_0
+# turn_left_360.addEventListener "click", (e)->
+#     console.log "Click_left_360"
+#     orbitControls_rotate(0.1,0)
+#     delta_0 = delta_0-0.1
+#     console.log delta_0
+# turn_right_360.addEventListener "click", (e)->
+#     orbitControls_rotate(-0.1,0)
+#     console.log "Click_right_360"
+#     delta_0 = delta_0-(-0.1)
+#     console.log delta_0
