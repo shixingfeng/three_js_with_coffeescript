@@ -43,7 +43,7 @@ init = ()->
             dir = turtle[2] * (Math.PI / 180)
             turtle[0] += Math.cos(dir) * dist
             turtle[1] += Math.sin(dir) * dist
-            points.push({x: turtle[0], y: turtle[1], z: Math.sin(count) * 5})
+            points.push {x: turtle[0], y: turtle[1], z: Math.sin(count) * 5}
 
         rg = (st, ln, turtle)->
             st--
@@ -119,17 +119,20 @@ init = ()->
     colors = []
     i = 0
     points.forEach (e)->        
-        lines.vertices.push new THREE.Vector3(e.x, e.z, e.y)
+        lines.vertices.push new THREE.Vector3 e.x, e.z, e.y
         colors[i] = new THREE.Color 0xffffff
         colors[i].setHSL e.x / 100 + 0.5, (  e.y * 20 ) / 300, 0.8
         i++
 
     lines.colors = colors
-    
-    material = new THREE.LineBasicMaterial {
-        opacity: 1.0,
-        linewidth: 1,
-        vertexColors: THREE.VertexColors
+    lines.computeLineDistances()
+
+    material = new THREE.LineDashedMaterial {
+        vertexColors: true,
+        color: 0xffffff,
+        dashSize: 2,
+        gapSize: 2,
+        scale: 0.1
     }
 
     line = new THREE.Line lines, material

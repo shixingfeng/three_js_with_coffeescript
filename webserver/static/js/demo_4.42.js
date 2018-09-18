@@ -145,10 +145,13 @@
       return i++;
     });
     lines.colors = colors;
-    material = new THREE.LineBasicMaterial({
-      opacity: 1.0,
-      linewidth: 1,
-      vertexColors: THREE.VertexColors
+    lines.computeLineDistances();
+    material = new THREE.LineDashedMaterial({
+      vertexColors: true,
+      color: 0xffffff,
+      dashSize: 2,
+      gapSize: 2,
+      scale: 0.1
     });
     line = new THREE.Line(lines, material);
     line.position.set(25, -30, -60);
