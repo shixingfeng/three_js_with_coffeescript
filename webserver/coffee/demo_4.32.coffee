@@ -14,15 +14,15 @@ init = ()->
     camera.lookAt new THREE.Vector3 10, 0, 0
     
     # 渲染器
-    webGLRrenderer = new THREE.WebGLRenderer()
-    webGLRrenderer.setClearColor new THREE.Color(0xEEEEEE, 1.0)
-    webGLRrenderer.setSize window.innerWidth, window.innerHeight
-    webGLRrenderer.shadowMapEnabled = false
+    webGLRenderer = new THREE.WebGLRenderer()
+    webGLRenderer.setClearColor new THREE.Color(0xEEEEEE, 1.0)
+    webGLRenderer.setSize window.innerWidth, window.innerHeight
+    webGLRenderer.shadowMapEnabled = false
 
     canvasRenderer = new THREE.CanvasRenderer()
     canvasRenderer.setSize window.innerWidth, window.innerHeight
    
-    renderer = webGLRrenderer
+    renderer = webGLRenderer
     # 地面材质 和 角度
     groundGeom = new THREE.PlaneGeometry 100, 100, 4, 4
     groundMesh = new THREE.Mesh groundGeom, new THREE.MeshBasicMaterial({color: 0x555555})
