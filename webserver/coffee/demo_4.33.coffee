@@ -15,7 +15,7 @@ init = ()->
     
     # 渲染器
     renderer = new THREE.WebGLRenderer()
-    renderer.setClearColor new THREE.Color(0xEEEEEE, 1.0)
+    renderer.setClearColor new THREE.Color 0x000000, 1.0
     renderer.setSize window.innerWidth, window.innerHeight
     renderer.shadowMapEnabled = true
 
@@ -99,7 +99,6 @@ init = ()->
         cube.rotation.y = step += 0.01
         cube.rotation.x = step
         cube.rotation.z = step
-        
         cube.material.materials.forEach (e)->
             e.uniforms.time.value += 0.01
         

@@ -24,7 +24,7 @@
     
     // 渲染器
     renderer = new THREE.WebGLRenderer();
-    renderer.setClearColor(new THREE.Color(0xEEEEEE, 1.0));
+    renderer.setClearColor(new THREE.Color(0x000000, 1.0));
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.shadowMapEnabled = true;
     // 创建材质

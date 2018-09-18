@@ -30,7 +30,6 @@
         gl_Position = projectionMatrix * modelViewMatrix * vec4(posChanged,1.0);
         }
     </script>
-
     <script id="fragment-shader-1" type="x-shader/x-fragment">
         precision highp float;
         uniform float time;
@@ -75,11 +74,14 @@
         gl_FragColor = vec4(col*1.0, -col*1.0,-col*4.0, 1.0);
         }
     </script>
-
     <script id="fragment-shader-2" type="x-shader/x-fragment">
+        // from http://glsl.heroku.com/e#7906.0
+
+
         uniform float time;
         uniform vec2 resolution;
 
+        // 2013-03-30 by @hintz
 
         #define CGFloat float
         #define M_PI 3.14159265359
@@ -152,9 +154,7 @@
 
         gl_FragColor = vec4( hsvtorgb(dd+time*0.5/d1, sin(dd*time), d2), 1.0 );
         }
-
     </script>
-
     <script id="fragment-shader-3" type="x-shader/x-fragment">
         uniform vec2 resolution;
         uniform float time;
@@ -197,9 +197,7 @@
         gl_FragColor = vec4(color);
         }
     </script>
-
     <script id="fragment-shader-4" type="x-shader/x-fragment">
-
         uniform float time;
         uniform vec2 resolution;
 
@@ -245,9 +243,7 @@
         }
         gl_FragColor = vec4(color,mix(color,cos(color),sin(color)),color,1);
         }
-
     </script>
-
     <script id="fragment-shader-5" type="x-shader/x-fragment">
 
         uniform float time;
@@ -275,8 +271,9 @@
         gl_FragColor = vec4( cos(a/20.0),a*cos(a/200.0),sin(a/8.0), 1.0 );
         }
     </script>
-
     <script id="fragment-shader-6" type="x-shader/x-fragment">
+
+
         uniform float time;
         uniform vec2 resolution;
 
@@ -305,12 +302,9 @@
         vec4 color_final = vec4(color, 1.0);
         gl_FragColor = color_final;
         }
-
     </script>
-
-
-    <div id="Stats-output"></div>
-    <div id="WebGL-output"></div>
-    <script src="/static/js/demo_4.33.js"></script>
+        <div id="Stats-output"></div>
+        <div id="WebGL-output"></div>
+        <script src="/static/js/demo_4.33.js"></script>
 </body>
 </html>
