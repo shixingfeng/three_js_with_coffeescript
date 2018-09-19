@@ -2,7 +2,7 @@
 (function() {
   var camera, init, onResize, renderer, scene;
 
-  console.log("demo_5.25  geometries - Torusknot");
+  console.log("demo_5.26  geometries - Polyhedron");
 
   camera = null;
 
@@ -11,7 +11,7 @@
   renderer = null;
 
   init = function() {
-    var controls, createMesh, gui, initStats, knot, renderScene, stats, step, webGLRenderer;
+    var controls, createMesh, gui, initStats, polyhedron, renderScene, stats, step, webGLRenderer;
     // 场景
     scene = new THREE.Scene();
     
@@ -30,45 +30,57 @@
     renderer = webGLRenderer;
     //材质
     createMesh = function(geom) {
-      var mesh, meshMaterial;
-      meshMaterial = new THREE.MeshNormalMaterial({});
+      var mesh, meshMaterial, wireFrameMat;
+      meshMaterial = new THREE.MeshNormalMaterial();
       meshMaterial.side = THREE.DoubleSide;
-      mesh = THREE.SceneUtils.createMultiMaterialObject(geom, [meshMaterial]);
+      wireFrameMat = new THREE.MeshBasicMaterial();
+      wireFrameMat.wireframe = true;
+      mesh = THREE.SceneUtils.createMultiMaterialObject(geom, [meshMaterial, wireFrameMat]);
       return mesh;
     };
-    // 创建二维几何体 knot
-    knot = createMesh(new THREE.TorusKnotGeometry(10, 1, 64, 8, 2, 3, 1));
-    scene.add(knot);
+    // 创建二维几何体 polyhedron
+    polyhedron = createMesh(new THREE.IcosahedronGeometry(10, 0));
+    scene.add(polyhedron);
     
     // 控制条
     controls = new function() {
-      this.radius = knot.children[0].geometry.parameters.radius;
-      this.tube = 0.3;
-      this.radialSegments = knot.children[0].geometry.parameters.radialSegments;
-      this.tubularSegments = knot.children[0].geometry.parameters.tubularSegments;
-      this.p = knot.children[0].geometry.parameters.p;
-      this.q = knot.children[0].geometry.parameters.q;
-      this.heightScale = knot.children[0].geometry.parameters.heightScale;
+      var indices, vertices;
+      this.radius = 10;
+      this.detail = 0;
+      this.type = "Icosahedron";
+      vertices = [1, 1, 1, -1, -1, 1, -1, 1, -1, 1, -1, -1];
+      indices = [2, 1, 0, 0, 3, 2, 1, 3, 0, 2, 3, 1];
       this.redraw = function() {
-        scene.remove(knot);
-        knot = createMesh(new THREE.TorusKnotGeometry(controls.radius, controls.tube, Math.round(controls.radialSegments), Math.round(controls.tubularSegments), Math.round(controls.p), Math.round(controls.q), controls.heightScale));
-        return scene.add(knot);
+        scene.remove(polyhedron);
+        switch (controls.type) {
+          case "Icosahedron":
+            polyhedron = createMesh(new THREE.IcosahedronGeometry(controls.radius, controls.detail));
+            break;
+          case "Tetrahedron":
+            polyhedron = createMesh(new THREE.TetrahedronGeometry(controls.radius, controls.detail));
+            break;
+          case "Octahedron":
+            polyhedron = createMesh(new THREE.OctahedronGeometry(controls.radius, controls.detail));
+            break;
+          case "Dodecahedron":
+            polyhedron = createMesh(new THREE.DodecahedronGeometry(controls.radius, controls.detail));
+            break;
+          case "Custom":
+            polyhedron = createMesh(new THREE.PolyhedronGeometry(vertices, indices, controls.radius, controls.detail));
+        }
+        return scene.add(polyhedron);
       };
       return this;
     };
     gui = new dat.GUI();
-    gui.add(controls, "radius", 0, 40).onChange(controls.redraw);
-    gui.add(controls, "tube", 0, 40).onChange(controls.redraw);
-    gui.add(controls, "radialSegments", 0, 400).step(1).onChange(controls.redraw);
-    gui.add(controls, "tubularSegments", 1, 20).step(1).onChange(controls.redraw);
-    gui.add(controls, "p", 1, 10).step(1).onChange(controls.redraw);
-    gui.add(controls, "q", 1, 15).step(1).onChange(controls.redraw);
-    gui.add(controls, "heightScale", 0, 5).onChange(controls.redraw);
+    gui.add(controls, "radius", 0, 40).step(1).onChange(controls.redraw);
+    gui.add(controls, "detail", 0, 3).step(1).onChange(controls.redraw);
+    gui.add(controls, "type", ["Icosahedron", "Tetrahedron", "Octahedron", "Dodecahedron", "Custom"]).onChange(controls.redraw);
     step = 0;
     // 实时渲染
     renderScene = function() {
       stats.update();
-      knot.rotation.y = step += 0.01;
+      polyhedron.rotation.y = step += 0.01;
       requestAnimationFrame(renderScene);
       return renderer.render(scene, camera);
     };
