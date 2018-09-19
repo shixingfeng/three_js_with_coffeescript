@@ -51,6 +51,7 @@ def make_app():
         (r"/threejs4_41",three.ThreeJSHandler_demo4_41),
         (r"/threejs4_42",three.ThreeJSHandler_demo4_42),
         (r"/threejs5_1",three.ThreeJSHandler_demo5_1),
+        (r"/threejs5_12",three.ThreeJSHandler_demo5_12),
         
 
 
