@@ -1,4 +1,4 @@
-console.log "demo_6.3  geometries - Extrude"
+console.log "demo_6.31  geometries - Extrude"
 camera = null
 scene = null
 renderer = null

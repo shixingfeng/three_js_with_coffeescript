@@ -2,7 +2,7 @@
 (function() {
   var camera, init, onResize, renderer, scene;
 
-  console.log("demo_6.3  geometries - Extrude");
+  console.log("demo_6.31  geometries - Extrude");
 
   camera = null;
 
