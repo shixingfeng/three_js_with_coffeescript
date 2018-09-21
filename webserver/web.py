@@ -69,6 +69,8 @@ def make_app():
         (r"/threejs6_41",three.ThreeJSHandler_demo6_41),
         (r"/threejs6_51",three.ThreeJSHandler_demo6_51),
         
+        (r"/threejs8_11",three.ThreeJSHandler_demo8_11),
+        
 
 
         (r"/threejs9_25",three.ThreeJSHandler_demo9_25),
