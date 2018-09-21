@@ -36,14 +36,14 @@ init = ()->
     gui = new dat.GUI()
     
     loader = new THREE.JSONLoader()
-    add_chair = "/static/pictures/assets/models/"
-    loader.load(add_chair+"misc_chair01.js",(geometry,mat)->
+    add_uri = "/static/pictures/assets/models/"
+    loader.load(add_uri+"misc_chair01.js",(geometry,mat)->
         mesh = new THREE.Mesh(geometry, mat[0])
         mesh.scale.x = 15
         mesh.scale.y = 15
         mesh.scale.z = 15
         scene.add mesh
-    ,add_chair)
+    ,add_uri)
         
     step = 0
     # 实时渲染

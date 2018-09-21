@@ -24,14 +24,14 @@ apps = [
     "6_1","6_2","6_31","6_32","6_33","6_34",
     "6_41","6_51",
 
-    "8_11","8_13","8_14","8_15","8_161",
+    "8_11","8_13","8_14","8_15","8_161","8_162",
 
     "9_25",
 ]
 # 临时接口
 class ThreeJSHandler_learn(tornado.web.RequestHandler):
     def get(self):
-        self.render("template/05-blender-from-json.html")
+        self.render("template/07-load-obj-mtl.html")
 
 # coffee重写部分
 class ThreeJSHandler_demo(tornado.web.RequestHandler):

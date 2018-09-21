@@ -13,7 +13,7 @@
   mesh = null;
 
   init = function() {
-    var add_chair, controls, gui, initStats, loader, renderScene, spotLight, stats, step, webGLRenderer;
+    var add_uri, controls, gui, initStats, loader, renderScene, spotLight, stats, step, webGLRenderer;
     // 场景
     scene = new THREE.Scene();
     
@@ -42,8 +42,8 @@
     // UI呈现
     gui = new dat.GUI();
     loader = new THREE.OBJLoader();
-    add_chair = "/static/pictures/assets/models/";
-    loader.load(add_chair + "pinecone.obj", function(loadedMesh) {
+    add_uri = "/static/pictures/assets/models/";
+    loader.load(add_uri + "pinecone.obj", function(loadedMesh) {
       var material;
       material = new THREE.MeshLambertMaterial({
         color: 0x5C3A21

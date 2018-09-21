@@ -1,4 +1,4 @@
-console.log "demo_8.161  Load OBJ model"
+console.log "demo_8.162  Load OBJ and MTL"
 camera = null
 scene = null
 renderer = null
@@ -9,11 +9,10 @@ init = ()->
     
     # 摄像机
     camera = new THREE.PerspectiveCamera 45, window.innerWidth/window.innerHeight, 0.1, 1000
-    camera.position.x = 130
+    camera.position.x = -30
     camera.position.y = 40
     camera.position.z = 50
-    camera.lookAt scene.position
-    scene.add camera
+    camera.lookAt new THREE.Vector3(0, 10, 0)
     
     # 渲染器
     webGLRenderer = new THREE.WebGLRenderer()
@@ -24,8 +23,8 @@ init = ()->
 
     #灯光
     spotLight = new THREE.SpotLight 0xffffff
-    spotLight.position.set 30, 40, 50
-    spotLight.intensity = 1
+    spotLight.position.set 0, 40, 30
+    spotLight.intensity = 2
     scene.add spotLight
 
 
@@ -35,19 +34,28 @@ init = ()->
         
     # UI呈现
     gui = new dat.GUI()
-    loader = new THREE.OBJLoader()
+    loader = new THREE.OBJMTLLoader()
     add_uri = "/static/pictures/assets/models/"
-    loader.load(add_uri+"pinecone.obj",(loadedMesh)->
-        material = new THREE.MeshLambertMaterial {color: 0x5C3A21}
-        loadedMesh.children.forEach (child)->
-            child.material = material
-            child.geometry.computeFaceNormals()
-            child.geometry.computeVertexNormals()
+    loader.load(add_uri+"butterfly.obj", add_uri+"butterfly.mtl",(object)->
+        wing2 = object.children[5].children[0]
+        wing1 = object.children[4].children[0]
 
-        mesh = loadedMesh
-        loadedMesh.scale.set 100, 100, 100
-        loadedMesh.rotation.x = -0.3
-        scene.add loadedMesh
+        wing1.material.opacity = 0.6
+        wing1.material.transparent = true
+        wing1.material.depthTest = false
+        wing1.material.side = THREE.DoubleSide
+
+        wing2.material.opacity = 0.6
+        wing2.material.depthTest = false
+        wing2.material.transparent = true
+        wing2.material.side = THREE.DoubleSide
+
+        object.scale.set 140, 140, 140
+        mesh = object
+        scene.add mesh
+
+        object.rotation.x = 0.2
+        object.rotation.y = -1.3
     )
         
     step = 0
@@ -56,7 +64,6 @@ init = ()->
         stats.update()
         if mesh
             mesh.rotation.y += 0.006
-            mesh.rotation.x += 0.006
         
         requestAnimationFrame renderScene
         renderer.render scene,camera
