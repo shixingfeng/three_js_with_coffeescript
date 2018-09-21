@@ -8,213 +8,37 @@ import md5
 import urllib
 import random
 from tornado.escape import json_decode
+apps = [
+    "1_3","1_5","1_6","1_8",
 
+    "2_1","2_12","2_2","2_22","2_3","2_32",
+    
+    "3_2","3_22","3_23","3_24","3_31","3_32","3_33",
+    
+    "4_1","4_2","4_23","4_24","4_25",
+    "4_31","4_32","4_33","4_41","4_42",
+    
+    "5_1","5_12","5_13","5_14","5_21","5_22",
+    "5_23","5_24","5_25","5_26",
+
+    "6_1","6_2","6_31","6_32","6_33","6_34",
+    "6_41","6_51",
+
+    "8_11","8_13","8_14","8_15",
+
+    "9_25",
+]
 # 临时接口
 class ThreeJSHandler_learn(tornado.web.RequestHandler):
     def get(self):
-        self.render("template/01-basic-mesh-material.html")
+        self.render("template/05-blender-from-json.html")
 
 # coffee重写部分
-
-class ThreeJSHandler_demo1_3(tornado.web.RequestHandler):
-    def get(self):
-        self.render("template/demo_1.3.html")
-
-class ThreeJSHandler_demo1_5(tornado.web.RequestHandler):
-    def get(self):
-        self.render("template/demo_1.5.html")
-
-class ThreeJSHandler_demo1_6(tornado.web.RequestHandler):
-    def get(self):
-        self.render("template/demo_1.6.html")
-
-class ThreeJSHandler_demo1_8(tornado.web.RequestHandler):
-    def get(self):
-        self.render("template/demo_1.8.html")
-
-class ThreeJSHandler_demo2_1(tornado.web.RequestHandler):
-    def get(self):
-        self.render("template/demo_2.1.html")
-
-class ThreeJSHandler_demo2_12(tornado.web.RequestHandler):
-    def get(self):
-        self.render("template/demo_2.12.html")
-
-class ThreeJSHandler_demo2_2(tornado.web.RequestHandler):
-    def get(self):
-        self.render("template/demo_2.2.html")
-
-class ThreeJSHandler_demo2_22(tornado.web.RequestHandler):
-    def get(self):
-        self.render("template/demo_2.22.html")
-
-class ThreeJSHandler_demo2_3(tornado.web.RequestHandler):
-    def get(self):
-        self.render("template/demo_2.3.html")
-
-class ThreeJSHandler_demo2_32(tornado.web.RequestHandler):
-    def get(self):
-        self.render("template/demo_2.32.html")
-
-class ThreeJSHandler_demo3_2(tornado.web.RequestHandler):
-    def get(self):
-        self.render("template/demo_3.2.html")
-
-class ThreeJSHandler_demo3_22(tornado.web.RequestHandler):
-    def get(self):
-        self.render("template/demo_3.22.html")
-
-class ThreeJSHandler_demo3_23(tornado.web.RequestHandler):
-    def get(self):
-        self.render("template/demo_3.23.html")
-
-class ThreeJSHandler_demo3_24(tornado.web.RequestHandler):
-    def get(self):
-        self.render("template/demo_3.24.html")
-
-class ThreeJSHandler_demo3_31(tornado.web.RequestHandler):
-    def get(self):
-        self.render("template/demo_3.31.html")
-
-class ThreeJSHandler_demo3_32(tornado.web.RequestHandler):
-    def get(self):
-        self.render("template/demo_3.32.html")
-
-class ThreeJSHandler_demo3_33(tornado.web.RequestHandler):
-    def get(self):
-        self.render("template/demo_3.33.html")
-
-class ThreeJSHandler_demo4_1(tornado.web.RequestHandler):
-    def get(self):
-        self.render("template/demo_4.1.html")
-
-class ThreeJSHandler_demo4_2(tornado.web.RequestHandler):
-    def get(self):
-        self.render("template/demo_4.2.html")
-  
-
-class ThreeJSHandler_demo4_23(tornado.web.RequestHandler):
-    def get(self):
-        self.render("template/demo_4.23.html")
-
-
-class ThreeJSHandler_demo4_24(tornado.web.RequestHandler):
-    def get(self):
-        self.render("template/demo_4.24.html")
-
-class ThreeJSHandler_demo4_25(tornado.web.RequestHandler):
-    def get(self):
-        self.render("template/demo_4.25.html")
-
-class ThreeJSHandler_demo4_31(tornado.web.RequestHandler):
-    def get(self):
-        self.render("template/demo_4.31.html")
-
-class ThreeJSHandler_demo4_32(tornado.web.RequestHandler):
-    def get(self):
-        self.render("template/demo_4.32.html")
-
-class ThreeJSHandler_demo4_33(tornado.web.RequestHandler):
-    def get(self):
-        self.render("template/demo_4.33.html")
-
-class ThreeJSHandler_demo4_41(tornado.web.RequestHandler):
-    def get(self):
-        self.render("template/demo_4.41.html")
-
-class ThreeJSHandler_demo4_42(tornado.web.RequestHandler):
-    def get(self):
-        self.render("template/demo_4.42.html")
-
-class ThreeJSHandler_demo5_1(tornado.web.RequestHandler):
-    def get(self):
-        self.render("template/demo_5.1.html")
-
-class ThreeJSHandler_demo5_12(tornado.web.RequestHandler):
-    def get(self):
-        self.render("template/demo_5.12.html")
-
-class ThreeJSHandler_demo5_13(tornado.web.RequestHandler):
-    def get(self):
-        self.render("template/demo_5.13.html")
-
-class ThreeJSHandler_demo5_14(tornado.web.RequestHandler):
-    def get(self):
-        self.render("template/demo_5.14.html")
-
-class ThreeJSHandler_demo5_21(tornado.web.RequestHandler):
-    def get(self):
-        self.render("template/demo_5.21.html")
-
-class ThreeJSHandler_demo5_22(tornado.web.RequestHandler):
-    def get(self):
-        self.render("template/demo_5.22.html")
-
-class ThreeJSHandler_demo5_23(tornado.web.RequestHandler):
-    def get(self):
-        self.render("template/demo_5.23.html")
-
-class ThreeJSHandler_demo5_24(tornado.web.RequestHandler):
-    def get(self):
-        self.render("template/demo_5.24.html")
-
-class ThreeJSHandler_demo5_25(tornado.web.RequestHandler):
-    def get(self):
-        self.render("template/demo_5.25.html")
-
-class ThreeJSHandler_demo5_26(tornado.web.RequestHandler):
-    def get(self):
-        self.render("template/demo_5.26.html")
-
-class ThreeJSHandler_demo6_1(tornado.web.RequestHandler):
-    def get(self):
-        self.render("template/demo_6.1.html")
-
-class ThreeJSHandler_demo6_2(tornado.web.RequestHandler):
-    def get(self):
-        self.render("template/demo_6.2.html")
-
-class ThreeJSHandler_demo6_31(tornado.web.RequestHandler):
-    def get(self):
-        self.render("template/demo_6.31.html")
-
-class ThreeJSHandler_demo6_32(tornado.web.RequestHandler):
-    def get(self):
-        self.render("template/demo_6.32.html")
-
-class ThreeJSHandler_demo6_33(tornado.web.RequestHandler):
-    def get(self):
-        self.render("template/demo_6.33.html")
-
-class ThreeJSHandler_demo6_34(tornado.web.RequestHandler):
-    def get(self):
-        self.render("template/demo_6.34.html")
-
-class ThreeJSHandler_demo6_41(tornado.web.RequestHandler):
-    def get(self):
-        self.render("template/demo_6.41.html")
-
-class ThreeJSHandler_demo6_51(tornado.web.RequestHandler):
-    def get(self):
-        self.render("template/demo_6.51.html")
-
-class ThreeJSHandler_demo8_11(tornado.web.RequestHandler):
-    def get(self):
-        self.render("template/demo_8.11.html")
-
-class ThreeJSHandler_demo8_13(tornado.web.RequestHandler):
-    def get(self):
-        self.render("template/demo_8.13.html")
-
-class ThreeJSHandler_demo8_14(tornado.web.RequestHandler):
-    def get(self):
-        self.render("template/demo_8.14.html")
-
-
-class ThreeJSHandler_demo9_25(tornado.web.RequestHandler):
-    def get(self):
-        self.render("template/demo_9.25.html")
-
-
-
-
+class ThreeJSHandler_demo(tornado.web.RequestHandler):
+    def get(self, app):
+        if not app in apps:
+            self.finish({"info":"no demos"})
+            return
+        demo_plus_arr = app.split("_")
+        template_uri = "template/demo_%s.%s.html"%(demo_plus_arr[0],demo_plus_arr[1])
+        self.render(template_uri)
