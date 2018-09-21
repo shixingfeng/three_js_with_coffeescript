@@ -1,18 +1,18 @@
-console.log "demo_8.11  Grouping"
+console.log "demo_8.13  Save & Load"
 camera = null
 scene = null
 renderer = null
-group = null
+loadedMesh = null
 init = ()->
     # 场景
     scene = new THREE.Scene()
     
     # 摄像机
     camera = new THREE.PerspectiveCamera 45, window.innerWidth/window.innerHeight, 0.1, 1000
-    camera.position.x = 30
-    camera.position.y = 30
-    camera.position.z = 30
-    camera.lookAt new THREE.Vector3(0, 0, 0)
+    camera.position.x = -30
+    camera.position.y = 40
+    camera.position.z = 50
+    camera.lookAt new THREE.Vector3(-20, 0, 0)
     
     # 渲染器
     webGLRenderer = new THREE.WebGLRenderer()
@@ -21,163 +21,76 @@ init = ()->
     webGLRenderer.shadowMapEnabled = true
     renderer = webGLRenderer
 
-
-    # 地面
-    ground = new THREE.PlaneGeometry 100, 100, 50, 50
-    groundMesh = THREE.SceneUtils.createMultiMaterialObject ground,[new THREE.MeshBasicMaterial({wireframe: true, overdraw: true, color: 0x00ff00}), new THREE.MeshBasicMaterial({color: 0x00ff00, transparent: true, opacity: 0.5})]
-    groundMesh.rotation = -0.5 * Math.PI
-    scene.add groundMesh
     
-    setFromObject= (object)->
-        box = new THREE.Box3()
-        v1 = new THREE.Vector3()
-        object.updateMatrixWorld(true)
-        box.makeEmpty()
-        object.traverse (node)->
-            if node.geometry != undefined and node.geometry.vertices != undefined
-                vertices = node.geometry.vertices
-                console.log vertices.length
-                for i in [0..vertices.length]
-                    v1.copy(vertices[i])
-                    v1.applyMatrix4(node.matrixWorld)
-                    box.expandByPoint(v1)
-        return box
 
     # 材质
     createMesh = (geom)->
-        meshMaterial = new THREE.MeshNormalMaterial()
+        meshMaterial = new THREE.MeshBasicMaterial {vertexColors: THREE.VertexColors, wireframe: true, wireframeLinewidth: 2, color: 0xaaaaaa}
         meshMaterial.side = THREE.DoubleSide
-        wireFrameMat = new THREE.MeshBasicMaterial()
-        wireFrameMat.wireframe = true
-        plane = THREE.SceneUtils.createMultiMaterialObject geom, [meshMaterial, wireFrameMat]
-        return plane
+
+        mesh = new THREE.Mesh geom, meshMaterial
+        return mesh
  
+
+    #网格物体
+    knot = createMesh new THREE.TorusKnotGeometry(10, 1, 64, 8, 2, 3, 1)
+    scene.add knot
+
     # 控制条
     controls = new ()->
-        this.cubePosX = 0
-        this.cubePosY = 3
-        this.cubePosZ = 10
-
-        this.spherePosX = 10
-        this.spherePosY = 5
-        this.spherePosZ = 0
-
-        this.groupPosX = 10
-        this.groupPosY = 5
-        this.groupPosZ = 0
-
-        this.grouping = false
-        this.rotate = false
-
-        this.groupScale = 1
-        this.cubeScale = 1
-        this.sphereScale = 1
-
-        this.positionBoundingBox = ()->
-            scene.remove bboxMesh
-            box = setFromObject group
-            width = box.max.x - box.min.x
-            height = box.max.y - box.min.y
-            depth = box.max.z - box.min.z
-
-            bbox = new THREE.BoxGeometry(width, height, depth);
-            bboxMesh = new THREE.Mesh bbox, new THREE.MeshBasicMaterial({color: 0x000000, vertexColors: THREE.VertexColors, wireframeLinewidth: 2, wireframe: true})
-            bboxMesh.position.x = ((box.min.x + box.max.x) / 2)
-            bboxMesh.position.y = ((box.min.y + box.max.y) / 2)
-            bboxMesh.position.z = ((box.min.z + box.max.z) / 2)
-            return this
-        
+        console.log knot.geometry.parameters
+        this.radius = knot.geometry.parameters.radius
+        this.tube = 0.3
+        this.radialSegments = knot.geometry.parameters.radialSegments
+        this.tubularSegments = knot.geometry.parameters.tubularSegments
+        this.p = knot.geometry.parameters.p
+        this.q = knot.geometry.parameters.q
+        this.heightScale = knot.geometry.parameters.heightScale   
 
         this.redraw = ()->
-            scene.remove group
-            sphere = createMesh new THREE.SphereGeometry(5, 10, 10)
-            cube = createMesh new THREE.BoxGeometry(6, 6, 6)
-            sphere.position.set controls.spherePosX, controls.spherePosY, controls.spherePosZ
-            cube.position.set controls.cubePosX, controls.cubePosY, controls.cubePosZ
-          
-            group = new THREE.Group()
-            group.add sphere
-            group.add cube
-            scene.add group
-            
-            controls.positionBoundingBox()
+            scene.remove knot
+            knot = createMesh new THREE.TorusKnotGeometry(controls.radius, controls.tube, Math.round(controls.radialSegments), Math.round(controls.tubularSegments), Math.round(controls.p), Math.round(controls.q), controls.heightScale)
+            scene.add knot
 
-            arrow = new THREE.ArrowHelper new THREE.Vector3(0, 1, 0), group.position, 10, 0x0000ff
-            scene.add arrow
+        this.save = ()->
+            result = knot.toJSON()
+            localStorage.setItem "json", JSON.stringify(result)
 
+        this.load = ()->
+            scene.remove loadedMesh
+            json = localStorage.getItem "json"
+
+            if json
+                #将数据由json格式转换成对象
+                loadedGeometry = JSON.parse json
+                loader = new THREE.ObjectLoader()
+
+                loadedMesh = loader.parse loadedGeometry
+                loadedMesh.position.x -=50
+                scene.add loadedMesh
         return this
-
-
     # UI呈现
     gui = new dat.GUI()
-    sphereFolder = gui.addFolder "sphere"
-    sphereFolder.add(controls, "spherePosX", -20, 20).onChange (e)->
-        sphere.position.x = e
-        controls.positionBoundingBox()
-
-    sphereFolder.add(controls, "spherePosZ", -20, 20).onChange (e)->
-        sphere.position.z = e
-        controls.positionBoundingBox()
-
-    sphereFolder.add(controls, "spherePosY", -20, 20).onChange (e)->
-        sphere.position.y = e
-        controls.positionBoundingBox()
-
-    sphereFolder.add(controls, "sphereScale", 0, 3).onChange (e)->
-        sphere.scale.set e, e, e
-        controls.positionBoundingBox()
-
-
-    cubeFolder = gui.addFolder "cube"
-    cubeFolder.add(controls, "cubePosX", -20, 20).onChange (e)->
-        cube.position.x = e
-        controls.positionBoundingBox()
-
-    cubeFolder.add(controls, "cubePosZ", -20, 20).onChange (e)->
-        cube.position.z = e
-        controls.positionBoundingBox()
-
-    cubeFolder.add(controls, "cubePosY", -20, 20).onChange (e)->
-        cube.position.y = e
-        controls.positionBoundingBox()
-
-    cubeFolder.add(controls, "cubeScale", 0, 3).onChange (e)->
-        cube.scale.set e, e, e
-        controls.positionBoundingBox()
-
-
-    cubeFolder = gui.addFolder "group"
-    cubeFolder.add(controls, "groupPosX", -20, 20).onChange (e)->
-        group.position.x = e
-        controls.positionBoundingBox()
-
-    cubeFolder.add(controls, "groupPosZ", -20, 20).onChange (e)->
-        group.position.z = e
-        controls.positionBoundingBox()
-
-    cubeFolder.add(controls, "groupPosY", -20, 20).onChange (e)->
-        group.position.y = e
-        controls.positionBoundingBox()
-
-    cubeFolder.add(controls, "groupScale", 0, 3).onChange (e)->
-        group.scale.set e, e, e
-        controls.positionBoundingBox()
-    gui.add controls, "grouping"
-    gui.add controls, "rotate"
     
-
+    ioGui = gui.addFolder "Save & Load"
+    ioGui.add(controls, "save").onChange controls.save
+    ioGui.add(controls, "load").onChange controls.load
+    
+    meshGui = gui.addFolder "mesh"
+    meshGui.add(controls, "radius", 0, 40).onChange controls.redraw
+    meshGui.add(controls, "tube", 0, 40).onChange controls.redraw
+    meshGui.add(controls, "radialSegments", 0, 400).step(1).onChange controls.redraw
+    meshGui.add(controls, "tubularSegments", 1, 20).step(1).onChange controls.redraw
+    meshGui.add(controls, "p", 1, 10).step(1).onChange controls.redraw
+    meshGui.add(controls, "q", 1, 15).step(1).onChange controls.redraw
+    meshGui.add(controls, "heightScale", 0, 5).onChange controls.redraw
+    
     controls.redraw()
-    step = 0.03
+    step = 0
     # 实时渲染
     renderScene = ()->
         stats.update()
-        
-        if controls.grouping and controls.rotate
-            group.rotation.y += step
-
-        if controls.rotate and not controls.grouping
-            sphere.rotation.y += step
-            cube.rotation.y += step
+        knot.rotation.y = step += 0.01
         requestAnimationFrame renderScene
         renderer.render scene,camera
     
