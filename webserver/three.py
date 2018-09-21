@@ -194,6 +194,11 @@ class ThreeJSHandler_demo6_41(tornado.web.RequestHandler):
     def get(self):
         self.render("template/demo_6.41.html")
 
+class ThreeJSHandler_demo6_51(tornado.web.RequestHandler):
+    def get(self):
+        self.render("template/demo_6.51.html")
+
+
 
 class ThreeJSHandler_demo9_25(tornado.web.RequestHandler):
     def get(self):
