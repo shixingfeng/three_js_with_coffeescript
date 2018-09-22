@@ -37,8 +37,10 @@ init = ()->
     gui = new dat.GUI()
     loader = new THREE.OBJLoader()
     add_uri = "/static/pictures/assets/models/"
-    loader.load(add_uri+"pinecone.obj",(loadedMesh)->
-        material = new THREE.MeshLambertMaterial {color: 0x5C3A21}
+    loader.load(add_uri+"pinecone1.obj",(loadedMesh)->
+        # material = new THREE.MeshLambertMaterial {color: 0x5C3A21}
+        material = new THREE.MeshLambertMaterial {color:0x8bc34a}
+
         loadedMesh.children.forEach (child)->
             child.material = material
             child.geometry.computeFaceNormals()

@@ -43,10 +43,11 @@
     gui = new dat.GUI();
     loader = new THREE.OBJLoader();
     add_uri = "/static/pictures/assets/models/";
-    loader.load(add_uri + "pinecone.obj", function(loadedMesh) {
+    loader.load(add_uri + "pinecone1.obj", function(loadedMesh) {
       var material;
+      // material = new THREE.MeshLambertMaterial {color: 0x5C3A21}
       material = new THREE.MeshLambertMaterial({
-        color: 0x5C3A21
+        color: 0x8bc34a
       });
       loadedMesh.children.forEach(function(child) {
         child.material = material;
