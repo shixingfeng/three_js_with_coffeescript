@@ -39,17 +39,18 @@ init = ()->
         mat = new THREE.MeshLambertMaterial {color: 0x550000}
         group = new THREE.Mesh geometry, mat
         group.rotation.x = -0.5 * Math.PI
-        group.scale.set 0.6, 0.6, 0.6
+        group.scale.set 20, 20, 20
         scene.add group
+    ,{}
         
     step = 0
     # 实时渲染
     renderScene = ()->
         stats.update()
         
-        # mesh.rotation.y = step += 0.01
         if group
-            group.rotation.z += 0.006
+            group.rotation.y += 0.006
+            group.rotation.x += 0.009
         
         requestAnimationFrame renderScene
         renderer.render scene,camera
