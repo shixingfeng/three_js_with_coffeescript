@@ -2,7 +2,7 @@
 (function() {
   var camera, init, onResize, renderer, scene;
 
-  console.log("demo_7.1  Particles");
+  console.log("demo_7.12  webgl-Particles");
 
   camera = null;
 
@@ -11,7 +11,7 @@
   renderer = null;
 
   init = function() {
-    var canvasRenderer, createSprites, initStats, renderScene, stats, step;
+    var createSprites, initStats, renderScene, stats, step, webGLRenderer;
     // 场景
     scene = new THREE.Scene();
     
@@ -22,31 +22,33 @@
     camera.position.z = 150;
     
     // 渲染器
-    canvasRenderer = new THREE.WebGLRenderer();
-    canvasRenderer.setClearColor(new THREE.Color(0x000000, 1.0));
-    canvasRenderer.setSize(window.innerWidth, window.innerHeight);
-    renderer = canvasRenderer;
+    webGLRenderer = new THREE.WebGLRenderer();
+    webGLRenderer.setClearColor(new THREE.Color(0x000000, 1.0));
+    webGLRenderer.setSize(window.innerWidth, window.innerHeight);
+    renderer = webGLRenderer;
     //创建粒子
     createSprites = function() {
-      var i, material, results, sprite, x, y;
-      material = new THREE.SpriteMaterial();
-      results = [];
+      var cloud, geom, i, j, material, particle, x, y;
+      geom = new THREE.Geometry();
+      material = new THREE.PointCloudMaterial({
+        size: 4,
+        vertexColors: true,
+        color: 0xffffff
+      });
       for (x = i = -5; i <= 4; x = ++i) {
-        results.push((function() {
-          var j, results1;
-          results1 = [];
-          for (y = j = -5; j <= 4; y = ++j) {
-            sprite = new THREE.Sprite(material);
-            sprite.position.set(x * 10, y * 10, 0);
-            results1.push(scene.add(sprite));
-          }
-          return results1;
-        })());
+        for (y = j = -5; j <= 4; y = ++j) {
+          particle = new THREE.Vector3(x * 10, y * 10, 0);
+          geom.vertices.push(particle);
+          geom.colors.push(new THREE.Color(Math.random() * 0x00ffff));
+        }
       }
-      return results;
+      cloud = new THREE.PointCloud(geom, material);
+      return scene.add(cloud);
     };
     // 控制条
     // controls = new ()->
+
+    //执行创建粒子 
     createSprites();
     step = 0;
     // 实时渲染
