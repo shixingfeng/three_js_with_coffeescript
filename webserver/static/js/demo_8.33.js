@@ -47,7 +47,7 @@
       var mat;
       console.log(geometry);
       mat = new THREE.MeshLambertMaterial({
-        color: 0xaaffaa
+        color: 0x7f8479
       });
       group = new THREE.Mesh(geometry, mat);
       group.scale.set(9, 9, 9);
@@ -58,7 +58,7 @@
     renderScene = function() {
       stats.update();
       if (group) {
-        group.rotation.y += 0.006;
+        group.rotation.y += 0.06;
       }
       requestAnimationFrame(renderScene);
       return renderer.render(scene, camera);

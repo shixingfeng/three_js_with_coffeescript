@@ -2,7 +2,7 @@
 (function() {
   var camera, init, mesh, model, onResize, renderer, scene;
 
-  console.log("demo_8.34  Load awd model");
+  console.log("demo_8.35  Load assimp model");
 
   camera = null;
 
@@ -52,10 +52,10 @@
     
     // UI呈现
     gui = new dat.GUI();
-    loader = new THREE.AWDLoader();
+    loader = new THREE.AssimpJSONLoader();
     group = new THREE.Object3D();
-    add_uri = "/static/pictures/assets/models/awd/";
-    loader.load(add_uri + "PolarBear.awd", function(model) {
+    add_uri = "/static/pictures/assets/models/assimp/";
+    loader.load(add_uri + "spider.obj.assimp.json", function(model) {
       console.log(model);
       model.traverse(function(child) {
         if (child instanceof THREE.Mesh) {
@@ -73,7 +73,7 @@
       stats.update();
       orbit.update();
       if (model) {
-        model.rotation.y = step += 0.01;
+        model.rotation.y = step += 0.005;
       }
       requestAnimationFrame(renderScene);
       return renderer.render(scene, camera);

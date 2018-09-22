@@ -1,18 +1,18 @@
-console.log "demo_8.33  Load vtk model"
+console.log "demo_8.35  Load assimp model"
 camera = null
 scene = null
 renderer = null
 mesh = null
-group = null
+model = null
 init = ()->
     # 场景
     scene = new THREE.Scene()
     
     # 摄像机
     camera = new THREE.PerspectiveCamera 45, window.innerWidth/window.innerHeight, 0.1, 1000
-    camera.position.x = 10
-    camera.position.y = 10
-    camera.position.z = 10
+    camera.position.x = 30
+    camera.position.y = 30
+    camera.position.z = 30
     camera.lookAt new THREE.Vector3(0, 0, 0)
     
     # 渲染器
@@ -23,31 +23,51 @@ init = ()->
     renderer = webGLRenderer
 
     #灯光
+    orbit = new THREE.OrbitControls camera
+
+    dir1 = new THREE.DirectionalLight()
+    dir1.position.set -30, 30, -30
+    scene.add dir1
+
+    dir2 = new THREE.DirectionalLight()
+    dir2.position.set -30, 30, 30
+    scene.add dir2
+
+    dir3 = new THREE.DirectionalLight()
+    dir3.position.set 30, 30, -30
+    scene.add dir3
+
+    # 阴影
     spotLight = new THREE.SpotLight 0xffffff
-    spotLight.position.set 20, 20, 20
+    spotLight.position.set 30, 30, 30
     scene.add spotLight
+
 
     # 控制条
     controls = new ()->
         
     # UI呈现
-    loader = new THREE.VTKLoader()
+    gui = new dat.GUI()
+    loader = new THREE.AssimpJSONLoader()
     group = new THREE.Object3D()
-    add_uri = "/static/pictures/assets/models/"
-    loader.load add_uri+"moai_fixed.vtk", (geometry)->
-        console.log geometry
-        mat = new THREE.MeshLambertMaterial {color: 0x7f8479}
-        group = new THREE.Mesh geometry, mat
-        group.scale.set 9, 9, 9
-        scene.add group
-        
+    add_uri = "/static/pictures/assets/models/assimp/"
+    loader.load add_uri+"spider.obj.assimp.json", (model)->
+        console.log model
+        model.traverse (child)->
+            if child instanceof THREE.Mesh
+                child.material = new THREE.MeshLambertMaterial {color: 0x8bc34a}
+        model.scale.set 0.05, 0.05, 0.05
+        scene.add model
+    
+
     step = 0
     # 实时渲染
     renderScene = ()->
         stats.update()
+        orbit.update()
+        if model
+            model.rotation.y = step += 0.005
         
-        if group
-            group.rotation.y += 0.06 
         
         requestAnimationFrame renderScene
         renderer.render scene,camera
