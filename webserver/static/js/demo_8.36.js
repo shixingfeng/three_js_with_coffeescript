@@ -2,7 +2,7 @@
 (function() {
   var camera, init, mesh, model, onResize, renderer, scene;
 
-  console.log("demo_8.34  Load awd model");
+  console.log("demo_8.36  Load VRML model");
 
   camera = null;
 
@@ -34,13 +34,13 @@
     renderer = webGLRenderer;
     //灯光
     orbit = new THREE.OrbitControls(camera);
-    dir1 = new THREE.DirectionalLight();
+    dir1 = new THREE.DirectionalLight(0.4);
     dir1.position.set(-30, 30, -30);
     scene.add(dir1);
-    dir2 = new THREE.DirectionalLight();
+    dir2 = new THREE.DirectionalLight(0.4);
     dir2.position.set(-30, 30, 30);
     scene.add(dir2);
-    dir3 = new THREE.DirectionalLight();
+    dir3 = new THREE.DirectionalLight(0.4);
     dir3.position.set(30, 30, -30);
     scene.add(dir3);
     // 阴影
@@ -52,10 +52,10 @@
     
     // UI呈现
     gui = new dat.GUI();
-    loader = new THREE.AWDLoader();
+    loader = new THREE.VRMLLoader();
     group = new THREE.Object3D();
-    add_uri = "/static/pictures/assets/models/awd/";
-    loader.load(add_uri + "PolarBear.awd", function(model) {
+    add_uri = "/static/pictures/assets/models/vrml/";
+    loader.load(add_uri + "tree.wrl", function(model) {
       console.log(model);
       model.traverse(function(child) {
         if (child instanceof THREE.Mesh) {
@@ -64,7 +64,7 @@
           });
         }
       });
-      model.scale.set(0.05, 0.05, 0.05);
+      model.scale.set(10, 10, 10);
       return scene.add(model);
     });
     step = 0;
@@ -72,7 +72,7 @@
     renderScene = function() {
       stats.update();
       orbit.update();
-      scene.rotation.y = step += 0.01;
+      scene.rotation.y = step += 0.005;
       requestAnimationFrame(renderScene);
       return renderer.render(scene, camera);
     };

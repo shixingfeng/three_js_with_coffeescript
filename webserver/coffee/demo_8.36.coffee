@@ -1,4 +1,4 @@
-console.log "demo_8.35  Load assimp model"
+console.log "demo_8.36  Load VRML model"
 camera = null
 scene = null
 renderer = null
@@ -25,15 +25,15 @@ init = ()->
     #灯光
     orbit = new THREE.OrbitControls camera
 
-    dir1 = new THREE.DirectionalLight()
+    dir1 = new THREE.DirectionalLight 0.4
     dir1.position.set -30, 30, -30
     scene.add dir1
 
-    dir2 = new THREE.DirectionalLight()
+    dir2 = new THREE.DirectionalLight 0.4
     dir2.position.set -30, 30, 30
     scene.add dir2
 
-    dir3 = new THREE.DirectionalLight()
+    dir3 = new THREE.DirectionalLight 0.4
     dir3.position.set 30, 30, -30
     scene.add dir3
 
@@ -48,15 +48,15 @@ init = ()->
         
     # UI呈现
     gui = new dat.GUI()
-    loader = new THREE.AssimpJSONLoader()
+    loader = new THREE.VRMLLoader()
     group = new THREE.Object3D()
-    add_uri = "/static/pictures/assets/models/assimp/"
-    loader.load add_uri+"spider.obj.assimp.json", (model)->
+    add_uri = "/static/pictures/assets/models/vrml/"
+    loader.load add_uri+"tree.wrl", (model)->
         console.log model
         model.traverse (child)->
             if child instanceof THREE.Mesh
                 child.material = new THREE.MeshLambertMaterial {color: 0x8bc34a}
-        model.scale.set 0.05, 0.05, 0.05
+        model.scale.set 10, 10, 10
         scene.add model
     
 
@@ -65,6 +65,7 @@ init = ()->
     renderScene = ()->
         stats.update()
         orbit.update()
+        
         scene.rotation.y = step += 0.005
         
         

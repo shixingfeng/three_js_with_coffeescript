@@ -72,9 +72,7 @@
     renderScene = function() {
       stats.update();
       orbit.update();
-      if (model) {
-        model.rotation.y = step += 0.005;
-      }
+      scene.rotation.y = step += 0.005;
       requestAnimationFrame(renderScene);
       return renderer.render(scene, camera);
     };

@@ -65,8 +65,7 @@ init = ()->
     renderScene = ()->
         stats.update()
         orbit.update()
-        if model
-            model.rotation.y = step += 0.01
+        scene.rotation.y = step += 0.01
         
         
         requestAnimationFrame renderScene
