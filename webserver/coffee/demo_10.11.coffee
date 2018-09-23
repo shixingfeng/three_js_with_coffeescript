@@ -22,7 +22,7 @@ init = ()->
 
     createMesh = (geom, imageFile)->
         loader = new THREE.DDSLoader()
-        texture = loader.load("/static/pictures/assets/textures/seafloor.dds")
+        texture = loader.load("/static/pictures/assets/textures/ash_uvgrid01.jpg")
         mat = new THREE.MeshPhongMaterial()
         mat.map = texture
 

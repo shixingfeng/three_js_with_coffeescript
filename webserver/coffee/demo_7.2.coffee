@@ -32,9 +32,9 @@ init = ()->
             sizeAttenuation:sizeAttenuation,
             color: color}
         range = 500
-        for i in [0..1500]
+        for i in [0..14999]
             particle = new THREE.Vector3(
-                Math.random() * range - range / 2
+                Math.random() * range - range / 2,
                 Math.random() * range - range / 2,
                 Math.random() * range - range / 2)
             geom.vertices.push particle

@@ -43,7 +43,7 @@
         color: color
       });
       range = 500;
-      for (i = j = 0; j <= 1500; i = ++j) {
+      for (i = j = 0; j <= 14999; i = ++j) {
         particle = new THREE.Vector3(Math.random() * range - range / 2, Math.random() * range - range / 2, Math.random() * range - range / 2);
         geom.vertices.push(particle);
         color = new THREE.Color(0x00ff00);

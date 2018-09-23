@@ -31,7 +31,7 @@
     createMesh = function(geom, imageFile) {
       var loader, mat, mesh, texture;
       loader = new THREE.DDSLoader();
-      texture = loader.load("/static/pictures/assets/textures/seafloor.dds");
+      texture = loader.load("/static/pictures/assets/textures/ash_uvgrid01.jpg");
       mat = new THREE.MeshPhongMaterial();
       mat.map = texture;
       mesh = new THREE.Mesh(geom, mat);
