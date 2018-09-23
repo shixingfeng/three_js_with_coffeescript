@@ -1,7 +1,8 @@
-console.log "demo_7.31  Canvas based texture"
+console.log "demo_7.32  Canvas based texture WebGL"
 camera = null
 scene = null
 renderer = null
+cloud = null
 init = ()->
     # 场景
     scene = new THREE.Scene()
@@ -14,14 +15,19 @@ init = ()->
     
     
     # 渲染器
-    canvasRenderer = new THREE.CanvasRenderer()
-    canvasRenderer.setClearColor new THREE.Color(0x000000, 1.0)
-    canvasRenderer.setSize window.innerWidth, window.innerHeight
-    renderer = canvasRenderer
+    webGLRenderer = new THREE.WebGLRenderer()
+    webGLRenderer.setClearColor new THREE.Color(0x000000, 1.0)
+    webGLRenderer.setSize window.innerWidth, window.innerHeight
+    renderer = webGLRenderer
 
 
     #纹理
-    getTexture = (ctx)->
+    getTexture = ()->
+        canvas = document.createElement "canvas"
+        canvas.width = 32
+        canvas.height = 32
+        ctx = canvas.getContext "2d"
+        
         # 身体
         ctx.translate(-81, -84)
         ctx.fillStyle = "orange"
@@ -62,32 +68,76 @@ init = ()->
         ctx.beginPath()
         ctx.arc 89, 102, 2, 0, Math.PI * 2, true
         ctx.fill()
+
+        texture = new THREE.Texture canvas
+        texture.needsUpdate = true
+        return texture
     
     #创建粒子
-    createSprites = ()->
-        material = new THREE.SpriteCanvasMaterial {program:getTexture, color:0xffffff}
-        material.rotation = Math.PI
+    createPointCloud = (size, transparent, opacity, sizeAttenuation, color)->
+        geom = new THREE.Geometry()
+        material = new THREE.PointCloudMaterial {
+            size: size,
+            transparent: transparent,
+            opacity: opacity,
+            map: getTexture(),
+            sizeAttenuation: sizeAttenuation,
+            color: color}
+
 
         range = 500
         for i in [0..1499]
-            sprite = new THREE.Sprite material
-            sprite.position.set(
+            particle = new THREE.Vector3(
                 Math.random() * range - range / 2,
                 Math.random() * range - range / 2,
                 Math.random() * range - range / 2)
-            sprite.scale.set 0.1, 0.1, 0.1
-            scene.add sprite
-    
-    # 执行创建粒子
-    createSprites() 
+            geom.vertices.push particle
+                
+        cloud = new THREE.PointCloud geom, material
+        cloud.name = "pointcloud"
+        cloud.sortParticles = true
+        scene.add cloud
 
     # 控制条
+    controls = new ()->
+        this.size = 15
+        this.transparent = true
+        this.opacity = 0.6
+        this.color = 0xffffff
+        this.rotateSystem = true
+        this.sizeAttenuation = true
 
+        this.redraw = ()->
+            if scene.getObjectByName("pointcloud")
+                scene.remove scene.getObjectByName("pointcloud")
+    
+            createPointCloud(
+                controls.size,
+                controls.transparent,
+                controls.opacity,
+                controls.sizeAttenuation,
+                controls.color)
+        return this
+
+    gui = new dat.GUI()
+    gui.add(controls, "size", 0, 20).onChange controls.redraw
+    gui.add(controls, "transparent").onChange controls.redraw
+    gui.add(controls, "opacity", 0, 1).onChange controls.redraw
+    gui.addColor(controls, "color").onChange controls.redraw
+    gui.add(controls, "sizeAttenuation").onChange controls.redraw
+    gui.add controls, "rotateSystem"
+
+    # 执行绘图
+    controls.redraw()
     step = 0
     # 实时渲染
     renderScene = ()->
         stats.update()
-        
+        if controls.rotateSystem
+            step += 0.01
+            cloud.rotation.x = step
+            cloud.rotation.z = step
+
         requestAnimationFrame renderScene
         renderer.render scene,camera
     
