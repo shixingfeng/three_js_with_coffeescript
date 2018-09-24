@@ -25,6 +25,7 @@ apps = [
     "6_41","6_51",
 
     "7_1","7_12","7_2","7_31","7_32","7_33",
+    "7_41",
 
 
     "8_11","8_13","8_14","8_15","8_161","8_162",
@@ -39,7 +40,7 @@ apps = [
 # 临时接口
 class ThreeJSHandler_learn(tornado.web.RequestHandler):
     def get(self):
-        self.render("template/16-load-vrml.html")
+        self.render("template/06-rainy-scene.html")
 
 # coffee重写部分
 class ThreeJSHandler_demo(tornado.web.RequestHandler):
