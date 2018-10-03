@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>demo11_21 Post processing masks</title>
+    <meta charset="utf-8">
+    <script src="https://www.hotpoor.com/static/js/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" src="/static/js/libs/three.js"></script>
+
+    <script type="text/javascript" src="/static/js/libs/stats.js"></script>
+    <script type="text/javascript" src="/static/js/libs/dat.gui.js"></script>
+    <script type="text/javascript" src="/static/js/libs/OrbitControls.js"></script>
+    <script type="text/javascript" src="/static/js/libs/postprocessing/ShaderPass.js"></script>
+    <script type="text/javascript" src="/static/js/libs/shaders/CopyShader.js"></script>
+    <script type="text/javascript" src="/static/js/libs/shaders/ColorifyShader.js"></script>
+
+    <script type="text/javascript" src="/static/js/libs/postprocessing/BloomPass.js"></script>
+    <script type="text/javascript" src="/static/js/libs/shaders/ConvolutionShader.js"></script>
+
+
+    <script type="text/javascript" src="/static/js/libs/postprocessing/EffectComposer.js"></script>
+
+    <script type="text/javascript" src="/static/js/libs/postprocessing/MaskPass.js"></script>
+    <script type="text/javascript" src="/static/js/libs/postprocessing/FilmPass.js"></script>
+    <script type="text/javascript" src="/static/js/libs/shaders/FilmShader.js"></script>
+    <script type="text/javascript" src="/static/js/libs/shaders/SepiaShader.js"></script>
+    <script type="text/javascript" src="/static/js/libs/postprocessing/RenderPass.js"></script>
+    <script type="text/javascript" src="/static/js/libs/postprocessing/SavePass.js"></script>
+    <script type="text/javascript" src="/static/js/libs/postprocessing/TexturePass.js"></script>
+    <style>
+        body{
+            margin: 0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div id="Stats-output"></div>
+    <div id="WebGL-output"></div>
+    <script src="/static/js/demo_11_21.js?t={{ handler.js_time }}"></script>
+</body>
+</html>

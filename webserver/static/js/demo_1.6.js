@@ -2,7 +2,7 @@
 (function() {
   var init;
 
-  console.log("启用coffee demo_1.6");
+  console.log("demo_1.61 材质、灯光、动画");
 
   init = function() {
     var axes, camera, controls, cube, cubeGeometry, cubeMaterial, gui, initStats, plane, planeGeometry, planeMaterial, renderScene, renderer, scene, sphere, sphereGeometry, sphereMaterial, spotLight, stats, step;

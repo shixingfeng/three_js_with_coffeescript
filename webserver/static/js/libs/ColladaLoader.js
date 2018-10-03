@@ -5486,7 +5486,8 @@ THREE.ColladaLoader = function () {
 		setPreferredShading: setPreferredShading,
 		applySkin: applySkin,
 		geometries : geometries,
-		options: options
+		options: options,
+		images: images
 
 	};
 

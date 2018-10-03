@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>demo_10.241 Video texture</title>
+    <meta charset="utf-8">
+    <script src="https://www.hotpoor.com/static/js/jquery-1.12.4.min.js"></script>
+    <script src="/static/js/libs/three.js"></script>
+    <script src="/static/js/libs/stats.js"></script>
+    <script src="/static/js/libs/dat.gui.js"></script>
+    <style>
+         body {
+            /* set margin to 0 and overflow to hidden, to go fullscreen */
+            margin: 0;
+            overflow: hidden;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="Stats-output"></div>
+    <video id="video" style="display: none; position: absolute; left: 15px; top: 75px;"
+       src="/static/pictures/assets/movies/Big_Buck_Bunny_small.ogv" controls="true" autoplay="true"></video>
+
+    <div id="WebGL-output"></div>
+    <script src="/static/js/demo_10_241.js?t={{ handler.js_time }}"></script>
+</body>
+</html>

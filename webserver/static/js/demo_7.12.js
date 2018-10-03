@@ -39,9 +39,9 @@
         for (y = j = -5; j <= 4; y = ++j) {
           particle = new THREE.Vector3(x * 10, y * 10, 0);
           geom.vertices.push(particle);
-          geom.colors.push(new THREE.Color(Math.random() * 0x00ffff));
         }
       }
+      // geom.colors.push new THREE.Color(Math.random()*0x00ffff)
       cloud = new THREE.PointCloud(geom, material);
       return scene.add(cloud);
     };

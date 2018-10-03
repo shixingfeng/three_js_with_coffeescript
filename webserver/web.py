@@ -24,6 +24,7 @@ def make_app():
     return tornado.web.Application([
         # 调用例子的临时接口
         (r"/threejs_learn",three.ThreeJSHandler_learn),
+        (r"/threejs_list",three.ThreeJSListHandler),
         # coffee重写例子
         (r"/threejs(.*)", three.ThreeJSHandler_demo),
         (r"/", MainHandler),

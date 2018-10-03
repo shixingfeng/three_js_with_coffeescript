@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>shoes store</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <script src="/static/js/libs/jquery-1.12.4.min.js"></script>
+    <script src="/static/js/libs/three.js"></script>
+    <script src="/static/js/libs/stats.js"></script>
+    <script src="/static/js/libs/dat.gui.js"></script>
+    <script type="text/javascript">
+        var DEMO_3D_MOVE = false;
+        var orbitControls_rotate;
+        var offset = 0;
+        var mousedown_x;
+        var mousedown_y;    
+        var orbitControls_rotate_timeout =null
+
+        
+        window.orbitControls_rotate = function(angleX, angleY){
+        clearTimeout(orbitControls_rotate_timeout);
+            orbitControls_rotateLeft = angleX;
+            orbitControls_rotateRight = angleY;
+            
+            orbitControls_rotate_timeout = setTimeout(function() {
+              orbitControls_rotateLeft = 0;
+              orbitControls_rotateRight = 0;
+            }, 3000);
+        }
+    </script>
+    <script src="/static/js/libs/OrbitControls_for_shoes.js"></script>
+    <script src="/static/js/libs/STLLoader.js"></script>
+    <style>
+        body{
+            margin: 0;
+            overflow: hidden;
+            position:relative;
+        }
+        .shoes_contents{
+            width: 100%;
+            height: 500px;
+            min-height: 500px;
+            display: flex;
+            flex-direction: row;
+            background: grey;
+        }
+        .shoes_models_page{
+            min-width: 500px;
+            flex-basis: 50%;
+            background: #f6e3d2
+        }
+
+        .shoes_info_page{
+            flex-basis: 60%;
+            background: red;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="shoes_contents">
+        
+        <div class="shoes_models_page">
+            <div id="WebGL-output"></div>
+        </div>
+        
+        <div class="shoes_info_page">
+            <div class="shoes_info_page_size">选择尺码</div>
+            <div class="shoes_info_page_details">商品详情</div>
+            <div class="shoes_info_page_Comment">累计评论</div>
+        </div>
+    
+    </div>
+
+    <script src="/static/js/shoes.js?t={{ handler.js_time }}"></script>
+    <script src="/static/js/shoes_page.js?t={{ handler.js_time }}"></script>
+    <script type="text/javascript">
+        
+        $("body").on("mousedown",".shoes_models_page",function(e){
+            DEMO_3D_MOVE = true;
+            console.log("按下鼠标");
+            mousedown_x = e.clientX;
+            mousedown_y = e.clientY;
+            // console.log(mousedown_x);
+            // console.log(mousedown_y);
+            e.preventDefault();
+            e.stopPropagation();
+        })
+
+        $(window).on("mousemove",function(e){
+            if (DEMO_3D_MOVE){
+                e.preventDefault();
+                e.stopPropagation();
+                clearTimeout(orbitControls_rotate_timeout);
+                orbitControls_rotate_timeout = setTimeout(function() {
+                    //设置参数，判定距离，给定转动距离
+                    var mousemove_x = e.clientX;
+                    var mousemove_y = e.clientY;
+                    var move_value_x = mousemove_x - mousedown_x;
+                    var move_value_y = mousemove_y - mousedown_y;
+                    console.log("x轴上移动距离："+move_value_x);
+                    console.log("y轴上移动距离："+move_value_y);
+                    // 向左还是向右
+                    if(move_value_x < 0){
+                        console.log("向左");
+                        orbitControls_rotate(0.025,0);
+
+                    }else{
+                        console.log("向右");
+                        orbitControls_rotate(-0.025,0);
+                    }
+                },100);   
+            }
+        })
+
+        $(window).on("mouseup",function(e){
+            DEMO_3D_MOVE = false;
+        })
+
+    </script>
+</body>
+</html>

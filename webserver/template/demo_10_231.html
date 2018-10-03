@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>demo_10.231 Canvas texture</title>
+    <meta charset="utf-8">
+    <link href="/static/js/libs/literally/css/literally.css" rel="stylesheet">
+    <script src="https://www.hotpoor.com/static/js/jquery-1.12.4.min.js"></script>
+    <script src="/static/js/libs/three.js"></script>
+    <script src="/static/js/libs/stats.js"></script>
+    <script src="/static/js/libs/dat.gui.js"></script>
+    <script src="/static/js/libs/perlin.js"></script>
+    <script src="/static/js/libs/literally/jquery-1.8.2.js"></script>
+    <script src="/static/js/libs/literally/underscore-1.4.2.js"></script>
+    <script src="/static/js/libs/literally/js/literallycanvas.js"></script>
+    <style>
+         body {
+            /* set margin to 0 and overflow to hidden, to go fullscreen */
+            margin: 0;
+            overflow: hidden;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+
+        .fs-container {
+            width: 300px;
+            height: 300px;
+            margin: auto;
+            bottom: 20px;
+            position: absolute;
+            x: 0;
+            y: 0;
+        }
+
+        #canvas-output {
+            width: 300px;
+            height: 300px;
+        }
+    </style>
+</head>
+<body>
+    <div id="Stats-output"></div>
+    <div class="fs-container">
+        <div id="canvas-output" style="float:left"></div>
+    </div>
+    <div id="WebGL-output"></div>
+    <script src="/static/js/demo_10_231.js"></script>
+</body>
+</html>

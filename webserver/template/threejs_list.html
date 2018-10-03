@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>ThreeJS List</title>
+	<meta charset="utf-8">
+	<script src="/static/js/libs/jquery-1.12.4.min.js"></script>
+	<style type="text/css">
+		.line{
+			margin: 10px;
+			box-shadow: 0px 2px 4px rgba(0,0,0,0.3);
+			padding: 5px;
+			min-width: 300px;
+			min-height: 120px;
+			position: relative;
+			border-radius: 4px;
+		}
+		.line_image{
+			position: absolute;
+			right: 10px;
+			top: 20px;
+			width: 120px;
+			height: auto;
+		}
+
+/*		.schedule{
+			background-color:red;
+			height: 20px;
+			width:60px;
+			border-radius: 10px;
+
+		}*/
+		/*.line_image:hover{
+			transform: scale(2.0);
+		}*/
+		.demo_show{
+			width:480px;
+			height: 320px;
+			position: fixed;
+			right: 20px;
+			bottom: 20px;
+			border-radius: 2px;
+			box-shadow: 0px 4px 8px rgba(0,0,0,0.3);
+		}
+		.demo_show_btn{
+			position: fixed;
+			right: 0px;
+			bottom: 0px;
+		}
+	</style>
+</head>
+<body>
+
+<!-- 循环输出内容 -->
+{% for app in handler.apps %}
+<div class="line">
+	<div class="line_title">
+		{{ handler.apps_info.get(""+app,{}).get("title","no title") }}
+	</div>
+	
+	<div class="line_description">
+		{{ handler.apps_info.get(""+app,{}).get("description","no description") }}
+	</div>
+	
+	{% if handler.apps_info.get(""+app,{}).get("schedule",u"未完成") in [u"未完成"]%}
+	<div class="schedule" style="color:red;">
+		{{ handler.apps_info.get(""+app,{}).get("schedule",u"未完成") }}
+	</div>
+	{% elif handler.apps_info.get(""+app,{}).get("schedule",u"未完成") in [u"已完成"] %}
+	<div class="schedule" style="color:green;">
+		{{ handler.apps_info.get(""+app,{}).get("schedule",u"未完成") }}
+	</div>
+	{% end if %}
+	
+	<div>
+		<img class="line_image" src='{{ handler.apps_info.get(""+app,{}).get("image","/static/images/demo/threejs_default.png") }}' data-value="{{app}}">
+	</div>
+	
+	<a href="/threejs{{ app }}" target="_blank">
+		DEMO {{app}}
+	</a>
+</div>
+
+{% end for%}
+
+
+<iframe class="demo_show" src="" style="display: none;"></iframe>
+<button class="demo_show_btn" data-value="hide">Hide</button>
+<script type="text/javascript">
+	
+	$("body").on("click",".line_image",function(e){
+		var aim = $(this).data("value")
+		$(".demo_show").attr("src","/threejs"+aim)
+		$(".demo_show").show()
+	})
+	
+	$("body").on("click",".demo_show_btn",function(e){
+		$(".demo_show").hide()	
+	})
+</script>
+</body>
+</html>
